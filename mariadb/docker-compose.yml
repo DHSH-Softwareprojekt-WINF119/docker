@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mariadb:10
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_DATABASE=softwareprojekt
+      - MARIADB_USER=softwareprojekt
+      - MARIADB_PASSWORD=softwareprojekt
+
+  web:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - 3307:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+
+volumes:
+  db_data:
