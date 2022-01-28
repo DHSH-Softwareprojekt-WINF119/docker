@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mariadb:10
+    restart: unless-stopped
+    ports:
+      - 3306:3306 # nit necessary, only used for development access
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=password # should be changed
+      - MARIADB_DATABASE=softwareprojekt
+      - MARIADB_USER=softwareprojekt
+      - MARIADB_PASSWORD=password # should be changed
+
+  backend:
+    image: ghcr.io/dhsh-softwareprojekt-winf119/backend:main
+    depends_on:
+      - db
+    ports:
+      - 9001:8080
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./config:/config # config files are read from this directory
+      
+  # TODO: Frontend?
+
+volumes:
+  mariadb_data:
