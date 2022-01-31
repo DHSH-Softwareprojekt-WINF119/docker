@@ -8,8 +8,24 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3
+          cache: 'pip'
+      - name: Install docker-compose
+        run: pip install --upgrade wheel docker-compose
+      - name: Modify PATH
+        run: export PATH="$PATH:$HOME/.local/bin"
+      - name: Lint docker-compose.yml
+        run: docker-compose -f app/docker-compose.yml config -q
+
   deploy:
     runs-on: ubuntu-latest
+    needs: [lint]
     steps:
       - name: Deploy docker-compose.yml
         uses: appleboy/ssh-action@master
