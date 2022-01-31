@@ -23,7 +23,11 @@ services:
     volumes:
       - ./config:/config # config files are read from this directory
       
-  # TODO: Frontend?
+  frontend:
+    image: ghcr.io/dhsh-softwareprojekt-winf119/frontend:main
+    command: npm run start
+    ports:
+      - 3000:3000
 
 volumes:
   mariadb_data:
