@@ -17,7 +17,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3
-          cache: 'pip'
       - name: Install docker-compose
         run: pip install --upgrade wheel docker-compose
       - name: Modify PATH
